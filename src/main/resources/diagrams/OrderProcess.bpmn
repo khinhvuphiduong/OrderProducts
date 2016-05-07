@@ -21,8 +21,8 @@
     <callActivity id="caCheckCredit" name="Check Credit"></callActivity>
     <exclusiveGateway id="exclusivegateway3" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow16" sourceRef="caCheckCredit" targetRef="exclusivegateway3"></sequenceFlow>
-    <sequenceFlow id="flow17" name="Not Ok" sourceRef="exclusivegateway3" targetRef="mailtask2"></sequenceFlow>
-    <sequenceFlow id="flow18" sourceRef="mailtask2" targetRef="endevent1"></sequenceFlow>
+    <sequenceFlow id="flow17" name="Not Ok" sourceRef="exclusivegateway3" targetRef="mtInformNotSucessfulPay"></sequenceFlow>
+    <sequenceFlow id="flow18" sourceRef="mtInformNotSucessfulPay" targetRef="endevent1"></sequenceFlow>
     <userTask id="utDeliveryProducts" name="Delivery Products"></userTask>
     <sequenceFlow id="flow19" name="Ok" sourceRef="exclusivegateway3" targetRef="utDeliveryProducts"></sequenceFlow>
     <userTask id="utConfirmOrder" name="Confirm Order"></userTask>
@@ -30,15 +30,45 @@
     <sequenceFlow id="flow21" sourceRef="utConfirmOrder" targetRef="endevent1"></sequenceFlow>
     <parallelGateway id="parallelgateway1" name="Parallel Gateway"></parallelGateway>
     <sequenceFlow id="flow22" name="Out Of Stock" sourceRef="exclusivegateway1" targetRef="parallelgateway1"></sequenceFlow>
-    <sequenceFlow id="flow23" sourceRef="parallelgateway1" targetRef="mailtask1"></sequenceFlow>
+    <sequenceFlow id="flow23" sourceRef="parallelgateway1" targetRef="mtCancelOrder"></sequenceFlow>
     <sequenceFlow id="flow24" sourceRef="parallelgateway1" targetRef="usertask4"></sequenceFlow>
     <sequenceFlow id="flow25" sourceRef="usertask4" targetRef="parallelgateway2"></sequenceFlow>
     <parallelGateway id="parallelgateway2" name="Exclusive Gateway"></parallelGateway>
-    <sequenceFlow id="flow26" sourceRef="mailtask1" targetRef="parallelgateway2"></sequenceFlow>
+    <sequenceFlow id="flow26" sourceRef="mtCancelOrder" targetRef="parallelgateway2"></sequenceFlow>
     <sequenceFlow id="flow27" sourceRef="parallelgateway2" targetRef="endevent1"></sequenceFlow>
     <sequenceFlow id="flow28" sourceRef="utPayOrder" targetRef="caCheckCredit"></sequenceFlow>
-    <serviceTask id="mailtask1" name="Inform Customer" activiti:type="mail"></serviceTask>
-    <serviceTask id="mailtask2" name="InformCustomer" activiti:type="mail"></serviceTask>
+    <serviceTask id="mtCancelOrder" name="Inform Customer" activiti:type="mail">
+      <extensionElements>
+        <activiti:field name="to">
+          <activiti:string><![CDATA[someone@gmail.com]]></activiti:string>
+        </activiti:field>
+        <activiti:field name="from">
+          <activiti:string><![CDATA[someone@gmail.com]]></activiti:string>
+        </activiti:field>
+        <activiti:field name="subject">
+          <activiti:string><![CDATA[1]]></activiti:string>
+        </activiti:field>
+        <activiti:field name="html">
+          <activiti:string><![CDATA[1]]></activiti:string>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <serviceTask id="mtInformNotSucessfulPay" name="Inform Customer" activiti:type="mail">
+      <extensionElements>
+        <activiti:field name="to">
+          <activiti:string><![CDATA[khanhnh@hotmail.com]]></activiti:string>
+        </activiti:field>
+        <activiti:field name="from">
+          <activiti:string><![CDATA[khanhnh@hotmail.com]]></activiti:string>
+        </activiti:field>
+        <activiti:field name="subject">
+          <activiti:string><![CDATA[1]]></activiti:string>
+        </activiti:field>
+        <activiti:field name="html">
+          <activiti:string><![CDATA[1]]></activiti:string>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_prOrderProcess">
     <bpmndi:BPMNPlane bpmnElement="prOrderProcess" id="BPMNPlane_prOrderProcess">
@@ -87,10 +117,10 @@
       <bpmndi:BPMNShape bpmnElement="parallelgateway2" id="BPMNShape_parallelgateway2">
         <omgdc:Bounds height="40.0" width="40.0" x="752.0" y="164.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="mailtask1" id="BPMNShape_mailtask1">
+      <bpmndi:BPMNShape bpmnElement="mtCancelOrder" id="BPMNShape_mtCancelOrder">
         <omgdc:Bounds height="55.0" width="105.0" x="570.0" y="210.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="mailtask2" id="BPMNShape_mailtask2">
+      <bpmndi:BPMNShape bpmnElement="mtInformNotSucessfulPay" id="BPMNShape_mtInformNotSucessfulPay">
         <omgdc:Bounds height="55.0" width="105.0" x="1125.0" y="391.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
@@ -175,7 +205,7 @@
         <omgdi:waypoint x="449.0" y="183.0"></omgdi:waypoint>
         <omgdi:waypoint x="499.0" y="183.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="100.0" x="341.0" y="232.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="100.0" x="372.0" y="232.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow23" id="BPMNEdge_flow23">

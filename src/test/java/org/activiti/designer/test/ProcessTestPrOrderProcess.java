@@ -15,7 +15,7 @@ import org.junit.Test;
 
 public class ProcessTestPrOrderProcess {
 
-	private String filename = "D:\GitJava\OrderProducts\src\main\resources\diagrams\OrderProcess.bpmn";
+	private String filename = "../OrderProducts/src/main/resources/diagrams/OrderProcess.bpmn";
 
 	@Rule
 	public ActivitiRule activitiRule = new ActivitiRule();
